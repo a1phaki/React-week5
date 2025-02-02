@@ -74,12 +74,13 @@ function App() {
   const updateCart = async(id,qty=1)=>{
     const data = {
       product_id:id,
-      qty:qty
+      qty
     }
     try {
-      const res = await axios.put(`${base_url}/api/${api_path}/cart/${id}`);
+      const res = await axios.put(`${base_url}/api/${api_path}/cart/${id}`,{data});
       getCart();
     } catch (error) {
+      console.log(error)
       alert(error.response.data.message);
     }
   }
@@ -236,7 +237,7 @@ function App() {
                       <td className='text-center'>{item.product.title}</td>
                       <td>
                         <div className="input-group input-group-sm">
-                          <input type="number" min='1' className='form-control' defaultValue={item.qty} onChange={()=>updateCart(item.id,item.qty)}/>
+                          <input type="number" min='1' className='form-control' value={item.qty} onChange={(e)=>updateCart(item.id,Number(e.target.value))}/>
                           <div className="input-group-text">
                             /{item.product.unit}
                           </div>
